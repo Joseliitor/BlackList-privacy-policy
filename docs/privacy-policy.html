@@ -53,6 +53,14 @@
       margin: 12px 0;
       color: #aee0ae;
     }
+    .notice {
+      background: #1a1f2a;
+      border-left: 3px solid #6aa9f5;
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin: 12px 0;
+      color: #b0c8f0;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -84,7 +92,7 @@
 
 <header>
   <h1>Privacy Policy</h1>
-  <p>Blacklist: Debt Tracker &nbsp;|&nbsp; TechInn &nbsp;|&nbsp; Last updated: March 23, 2026</p>
+  <p>Blacklist: Debt Tracker &nbsp;|&nbsp; TechInn &nbsp;|&nbsp; Last updated: April 12, 2026</p>
 </header>
 
 <main>
@@ -93,7 +101,7 @@
   <p>
     This Privacy Policy describes how <strong>TechInn</strong> ("we", "us", or "our")
     handles information when you use the <strong>Blacklist: Debt Tracker</strong> Android
-    application (the "App"). We are committed to protecting your privacy.
+    application (the "App"), version 1.0.0. We are committed to protecting your privacy.
     Please read this policy carefully.
   </p>
 
@@ -113,9 +121,10 @@
   </p>
   <ul>
     <li>Names of people associated with debts</li>
-    <li>Debt amounts and descriptions</li>
+    <li>Debt amounts and optional descriptions (concept)</li>
     <li>Debt type (money you are owed / money you owe)</li>
-    <li>Creation dates</li>
+    <li>Creation and settlement dates</li>
+    <li>Settled/paid debt history</li>
   </ul>
   <p>This data never leaves your device and is never sent to our servers or any third party.</p>
 
@@ -133,17 +142,29 @@
 
   <h3>1.3 App preferences</h3>
   <p>
-    We store small preference flags locally (onboarding completion, Pro status) using
-    Android DataStore. This data stays on your device only.
+    We store small preference flags locally (onboarding completion, Pro upgrade status,
+    total number of debts created) using Android DataStore. This data stays on your device only.
+    Pro status preferences are <strong>excluded from Android backups</strong> to prevent
+    unauthorised bypass of the upgrade.
   </p>
 
-  <h3>1.4 Data we do NOT collect</h3>
+  <h3>1.4 Debt message suggestions ("Ask for it")</h3>
+  <p>
+    The App includes a feature that generates suggested message templates to help you
+    request repayment. These messages are generated <strong>entirely on-device</strong>
+    using pre-written templates combined with the debt data you have already entered
+    (name, amount, concept). No data is sent to any external service or AI API for
+    this feature.
+  </p>
+
+  <h3>1.5 Data we do NOT collect</h3>
   <ul>
     <li>No account registration or login required</li>
     <li>No email address or personal identifiers</li>
     <li>No location data</li>
     <li>No analytics or usage telemetry from our side</li>
     <li>No camera or microphone access</li>
+    <li>No data is ever uploaded to our servers — we operate no backend infrastructure</li>
   </ul>
 
   <!-- ─── 2. THIRD-PARTY SERVICES ────────────────────────────────────────── -->
@@ -156,9 +177,9 @@
     deliver ads, which may include:
   </p>
   <ul>
-    <li>Device identifiers (advertising ID)</li>
+    <li>Device identifiers (advertising ID / GAID)</li>
     <li>IP address and approximate location</li>
-    <li>App usage signals for ad targeting</li>
+    <li>App usage signals for ad targeting and measurement</li>
   </ul>
   <p>
     AdMob operates under Google's Privacy Policy:
@@ -168,15 +189,26 @@
   </p>
   <p>
     <strong>Pro users:</strong> After purchasing Blacklist Pro, ads are permanently removed
-    and AdMob is no longer active in the App.
+    and AdMob is no longer active in the App. No advertising data is collected for Pro users.
   </p>
+  <div class="notice">
+    <strong>EU / EEA users (GDPR):</strong> Google AdMob may serve personalised or
+    non-personalised ads. You can opt out of personalised ads at any time via Android
+    Settings → Google → Ads → "Opt out of Ads Personalisation". A future version of the
+    App will include a GDPR consent screen (Google UMP) to provide explicit consent
+    management in compliance with EU law.
+  </div>
 
   <h3>2.2 Google Play Billing</h3>
   <p>
     If you purchase the one-time <strong>Blacklist Pro</strong> upgrade, the transaction
     is processed exclusively by <strong>Google Play</strong>. We do not receive or store
-    your payment details. Purchase validation is performed via Google Play Billing APIs.
-    Google Play's Terms of Service apply to this transaction.
+    your payment card details. Purchase validation is performed via Google Play Billing APIs
+    on-device. Google Play's Terms of Service and Privacy Policy apply to this transaction.
+  </p>
+  <p>
+    On every app launch, the App re-validates your purchase status with Google Play to
+    ensure your Pro entitlement is accurate and up to date.
   </p>
 
   <!-- ─── 3. PERMISSIONS ─────────────────────────────────────────────────── -->
@@ -189,17 +221,17 @@
     <tbody>
       <tr>
         <td><span class="chip">READ_CONTACTS</span></td>
-        <td>Name auto-complete when creating debt entries. Data stays on-device.</td>
-        <td>Optional — App works without it</td>
+        <td>Name auto-complete when creating debt entries. Contacts are read on-device only and never transmitted.</td>
+        <td>Optional — App works fully without it</td>
       </tr>
       <tr>
         <td><span class="chip">INTERNET</span></td>
-        <td>Load banner ads (free users) and validate Pro purchase with Google Play.</td>
+        <td>Load banner ads (free users) and validate Pro purchase status with Google Play.</td>
         <td>Required for ads and billing</td>
       </tr>
       <tr>
         <td><span class="chip">ACCESS_NETWORK_STATE</span></td>
-        <td>Check network availability before loading ads.</td>
+        <td>Check network availability before loading ads to avoid unnecessary failures.</td>
         <td>Required for ads</td>
       </tr>
     </tbody>
@@ -209,21 +241,23 @@
   <h2>4. Data Storage &amp; Security</h2>
   <p>
     All App data is stored in a local SQLite database on your Android device. The database
-    is accessible only to the Blacklist App and protected by Android's application sandbox.
+    is accessible only to the Blacklist App and is protected by Android's application sandbox.
   </p>
   <p>
-    App preferences (including Pro status) are stored in Android DataStore and are
-    <strong>excluded from device backups</strong> to prevent fraudulent bypass of the Pro
-    paywall. Your debt records are backed up with Android's standard backup mechanism
-    so you can restore them when changing devices.
+    App preferences (including Pro status and onboarding state) are stored using Android
+    DataStore and are <strong>excluded from device and cloud backups</strong> to prevent
+    fraudulent bypass of the Pro upgrade. Your debt records are included in Android's
+    standard backup so you can restore them when changing devices.
   </p>
   <p>
-    We implement the following technical safeguards:
+    Technical safeguards in place:
   </p>
   <ul>
-    <li>HTTPS-only network traffic (cleartext disabled)</li>
-    <li>Pro status re-validated against Google Play on every app launch</li>
-    <li>DataStore preferences excluded from cloud backup</li>
+    <li><strong>HTTPS-only</strong> — cleartext network traffic is disabled in production builds</li>
+    <li><strong>Pro re-validation</strong> — purchase status is verified against Google Play on every app launch</li>
+    <li><strong>Backup exclusion</strong> — Pro/preferences DataStore file excluded from cloud &amp; device transfer backups</li>
+    <li><strong>Code obfuscation</strong> — release builds use R8 minification and resource shrinking</li>
+    <li><strong>No backend servers</strong> — we operate no servers that could be compromised to expose your data</li>
   </ul>
 
   <!-- ─── 5. DATA RETENTION ──────────────────────────────────────────────── -->
@@ -231,16 +265,20 @@
   <p>
     Your debt data is stored on your device for as long as the App is installed.
     Uninstalling the App permanently deletes all locally stored debt records and preferences.
-    We have no server-side copy of your data to delete — it exists only on your device.
+    We have no server-side copy of your data — it exists only on your device.
+  </p>
+  <p>
+    You can delete individual debt records at any time from within the App. All data is
+    permanently erased upon App uninstallation.
   </p>
 
   <!-- ─── 6. CHILDREN ───────────────────────────────────────────────────── -->
   <h2>6. Children's Privacy</h2>
   <p>
-    Blacklist is rated for users aged <strong>13 and above</strong>. We do not knowingly
-    collect personal information from children under 13. If you believe a child under 13
-    has provided information through the App, please contact us at the email below and
-    we will take appropriate action.
+    Blacklist is intended for users aged <strong>13 and above</strong> and is not directed
+    at children. We do not knowingly collect personal information from children under 13.
+    If you believe a child under 13 has provided information through the App, please contact
+    us at the email below and we will take appropriate action.
   </p>
 
   <!-- ─── 7. DATA SHARING ────────────────────────────────────────────────── -->
@@ -252,29 +290,34 @@
     </thead>
     <tbody>
       <tr>
-        <td>Debt records &amp; amounts</td>
+        <td>Debt records, amounts &amp; history</td>
         <td>&#10060; No</td>
-        <td>On-device only</td>
+        <td>On-device only, never transmitted</td>
       </tr>
       <tr>
         <td>Contact names</td>
         <td>&#10060; No</td>
-        <td>Used locally for auto-complete only</td>
+        <td>Read locally for auto-complete only; never uploaded</td>
       </tr>
       <tr>
-        <td>Device &amp; ad identifiers</td>
+        <td>Generated message suggestions</td>
+        <td>&#10060; No</td>
+        <td>Created on-device from local templates; no external API involved</td>
+      </tr>
+      <tr>
+        <td>Device &amp; advertising identifiers</td>
         <td>&#9989; Yes — Google AdMob only</td>
-        <td>Free users only; removed after Pro purchase</td>
+        <td>Free users only; completely removed after Pro purchase</td>
       </tr>
       <tr>
-        <td>Purchase receipt</td>
+        <td>Purchase receipt / token</td>
         <td>&#9989; Yes — Google Play only</td>
-        <td>Pro purchase validation; we receive only purchase status</td>
+        <td>Pro upgrade validation; we receive only purchase status (true/false)</td>
       </tr>
     </tbody>
   </table>
 
-  <p>We do not sell your personal data to any third party.</p>
+  <p>We do not sell your personal data to any third party, ever.</p>
 
   <!-- ─── 8. YOUR RIGHTS ─────────────────────────────────────────────────── -->
   <h2>8. Your Rights</h2>
@@ -282,12 +325,33 @@
     Since all personal data stays on your device, you have full control at all times:
   </p>
   <ul>
-    <li><strong>Access &amp; export:</strong> You can view all your data within the App.</li>
-    <li><strong>Delete individual records:</strong> Use the swipe-to-delete action in the App.</li>
-    <li><strong>Delete all data:</strong> Uninstall the App — all data is permanently removed.</li>
-    <li><strong>Revoke permissions:</strong> Go to Android Settings → Apps → Blacklist → Permissions.</li>
-    <li><strong>Opt out of personalised ads:</strong> Use Android's "Opt out of Ads Personalization" setting in Google Settings.</li>
+    <li><strong>Access:</strong> You can view all your data within the App at any time.</li>
+    <li><strong>Delete individual records:</strong> Use the delete action available in the debt detail screen.</li>
+    <li><strong>Delete all data:</strong> Uninstall the App — all data is permanently and irreversibly removed.</li>
+    <li><strong>Revoke contacts permission:</strong> Go to Android Settings → Apps → Blacklist → Permissions → Contacts.</li>
+    <li><strong>Opt out of personalised ads:</strong> Android Settings → Google → Ads → "Opt out of Ads Personalisation".</li>
+    <li><strong>Restore purchase:</strong> Your Pro purchase is tied to your Google Play account and can be restored on any device with the same account.</li>
   </ul>
+
+  <h3>8.1 EU / EEA Residents (GDPR)</h3>
+  <p>
+    If you are located in the European Union or European Economic Area, you have additional
+    rights under the General Data Protection Regulation (GDPR):
+  </p>
+  <ul>
+    <li><strong>Right of access</strong> — all your data is visible within the App.</li>
+    <li><strong>Right to erasure</strong> — uninstalling the App deletes all data permanently.</li>
+    <li><strong>Right to data portability</strong> — not applicable as we hold no server-side data.</li>
+    <li><strong>Right to object to processing</strong> — for advertising data processed by Google AdMob,
+      opt out via Android Settings or purchase Blacklist Pro to remove ads entirely.</li>
+    <li><strong>Right to lodge a complaint</strong> — you may contact your local Data Protection Authority.</li>
+  </ul>
+  <p>
+    The legal basis for processing data through Google AdMob is <strong>legitimate interest</strong>
+    (free service monetisation) for non-personalised ads, and <strong>consent</strong> for
+    personalised ads. A dedicated GDPR consent interface (Google UMP) is planned for a future
+    update to ensure full compliance with EU consent requirements.
+  </p>
 
   <!-- ─── 9. CHANGES ────────────────────────────────────────────────────── -->
   <h2>9. Changes to This Policy</h2>
@@ -307,13 +371,14 @@
     <li><strong>Developer:</strong> TechInn</li>
     <li><strong>Email:</strong> <a href="mailto:techinn.apps@gmail.com">techinn.apps@gmail.com</a></li>
     <li><strong>App:</strong> Blacklist: Debt Tracker (com.techinn.blacklist)</li>
+    <li><strong>Version:</strong> 1.0.0</li>
   </ul>
   <p>We aim to respond to all inquiries within 5 business days.</p>
 
 </main>
 
 <footer>
-  <p>&#169; 2026 TechInn · Blacklist: Debt Tracker · All rights reserved</p>
+  <p>&#169; 2026 TechInn &middot; Blacklist: Debt Tracker &middot; All rights reserved</p>
   <p style="margin-top:6px;">
     <a href="https://github.com/Joseliitor/BlackList">GitHub</a>
   </p>
